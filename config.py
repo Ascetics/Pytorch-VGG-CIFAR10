@@ -8,8 +8,6 @@ class Config(object):
     # 数据集
     DATASETS_ROOT = '/root/private/torch_datasets'  # 数据集根目录
 
-    # 训练结果
-    WEIGHT_SAVE_PATH = '/root/private/Python-VGG-CIFAR10/weight'  # weight保存路径
 
     # 超参数
     TRAIN_BATCH_SIZE = 10  # batch大小
