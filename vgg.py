@@ -75,41 +75,54 @@ def make_feature(cfg, in_chans=3, batch_norm=False):
     return nn.Sequential(*layers)
 
 
-def vgg11(num_class, in_channels=3):
+def vgg11(num_class=1000, in_channels=3):
     feature = make_feature(cfgs['A'], in_channels)
     return VGG(feature, num_class)
 
 
-def vgg11_bn(num_class, in_channels=3):
+def vgg11_bn(num_class=1000, in_channels=3):
     feature = make_feature(cfgs['A'], in_channels, batch_norm=True)
     return VGG(feature, num_class)
 
 
-def vgg13(num_class, in_channels=3):
+def vgg13(num_class=1000, in_channels=3):
     feature = make_feature(cfgs['B'], in_channels)
     return VGG(feature, num_class)
 
 
-def vgg13_bn(num_class, in_channels=3):
+def vgg13_bn(num_class=1000, in_channels=3):
     feature = make_feature(cfgs['B'], in_channels, batch_norm=True)
     return VGG(feature, num_class)
 
 
-def vgg16(num_class, in_channels=3):
+def vgg16(num_class=1000, in_channels=3):
     feature = make_feature(cfgs['D'], in_channels)
     return VGG(feature, num_class)
 
 
-def vgg16_bn(num_class, in_channels=3):
+def vgg16_bn(num_class=1000, in_channels=3):
     feature = make_feature(cfgs['D'], in_channels, batch_norm=True)
     return VGG(feature, num_class)
 
 
-def vgg19(num_class, in_channels=3):
+def vgg19(num_class=1000, in_channels=3):
     feature = make_feature(cfgs['E'], in_channels)
     return VGG(feature, num_class)
 
 
-def vgg19_bn(num_class, in_channels=3):
+def vgg19_bn(num_class=1000, in_channels=3):
     feature = make_feature(cfgs['E'], in_channels, batch_norm=True)
     return VGG(feature, num_class)
+
+
+if __name__ == '__main__':
+    vgg = vgg11()
+    # vgg = vgg11_bn()
+    # vgg = vgg13()
+    # vgg = vgg13_bn()
+    # vgg = vgg16()
+    # vgg = vgg16_bn()
+    # vgg = vgg19()
+    # vgg = vgg19_bn()
+    print(vgg)
+    pass
