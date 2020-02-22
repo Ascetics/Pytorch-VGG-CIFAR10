@@ -48,7 +48,7 @@ def dataset_split(dataset, valid_rate=0.2, shuffle=False):
     return train_sampler, valid_sampler
 
 
-def train(net, num_epochs, optimizer, loss_func, train_loader, valid_loader):
+def train(net, num_epochs, optimizer, loss_func, train_loader, valid_loader, weight_pre):
     """
     训练函数
 
@@ -58,6 +58,7 @@ def train(net, num_epochs, optimizer, loss_func, train_loader, valid_loader):
     :param loss_func: loss函数
     :param train_loader: 训练集
     :param valid_loader: 验证集
+    :param weight_pre: 保存权重的文件前缀
     :return:
     """
     device = Config.DEVICE  # GPU或CPU
@@ -109,9 +110,9 @@ def train(net, num_epochs, optimizer, loss_func, train_loader, valid_loader):
                                train_acc / len(train_loader),  # 训练集正确率，累加值/batch个数
                                valid_loss / len(valid_loader),  # 验证集loss，累加值/batch个数
                                valid_acc / len(valid_loader)))  # 验证集正确率，累加值/batch个数
-        path = os.path.dirname(os.path.dirname(os.getcwd()))
-        path = os.path.join(path, Config.WEIGHT_SAVE_PATH)
-        path = os.path.join(path, 'vgg16-' + str(epoch) + '.pkl')
+
+        path = os.path.join(os.getcwd(), 'weight')
+        path = os.path.join(path, weight_pre + '-' + str(epoch) + '.pkl')
         torch.save(net.state_dict(), path)  # 保存训练权重
 
 
@@ -123,7 +124,7 @@ if __name__ == '__main__':
     ])  # 数据处理归一化
 
     dataset_cifar10 = CIFAR10(root=Config.DATASETS_ROOT, train=True,
-                              transform=data_transform, download=False)  # CIFAR10数据集
+                              transform=data_transform, download=True)  # CIFAR10数据集
     train_sampler, valid_sampler = dataset_split(dataset_cifar10, shuffle=True)  # 采样器
 
     train_data = DataLoader(
@@ -145,6 +146,6 @@ if __name__ == '__main__':
     optimizer = torch.optim.SGD(vgg.parameters(), lr=Config.LEARN_RATE)
     loss_func = nn.CrossEntropyLoss()
 
-    train(vgg, Config.EPOCHS, optimizer, loss_func, train_data, valid_data)
+    train(vgg, Config.EPOCHS, optimizer, loss_func, train_data, valid_data, 'vgg11')
 
     pass
